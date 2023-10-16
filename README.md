@@ -1,3 +1,3 @@
-# PSI_2023
+# PSI_2023.
 Maciej Sztabiński
 Bartosz Radzanowski
