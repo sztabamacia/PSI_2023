@@ -3,6 +3,7 @@ from .serializers import *
 from django.http import HttpResponse
 from django.http import JsonResponse
 
+
 # Create your views here.
 
 
@@ -13,22 +14,24 @@ def default_view(request):
 def klient_list(request):
     klienci = Klient.objects.all()
     serializer = KlientSerializer(klienci, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse({'klieni': serializer.data})
 
 
 def wypozyczenie_list(request):
     wypoz = Wypozyczenie.objects.all()
     serializer = WypozyczenieSerializer(wypoz, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse({'wypozyczenie': serializer.data})
 
 
 def autor_list(request):
     aut = Autorzy.objects.all()
     serializer = AutorzySerializer(aut, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse({'Autorzy': serializer.data})
 
 
 def ksiazki_list(request):
     ksia = Ksiazki.objects.all()
     serializer = KsiazkiSerializer(ksia, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse({'Ksiazki': serializer.data})  # , json_dumps_params={'ensure_ascii': False},
+                       #content_type='application/json; charset=utf-8') po dodaniu tego dzialaja dziwne znaczki
+                       # ąężź itp.
