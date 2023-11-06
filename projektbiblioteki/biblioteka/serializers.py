@@ -1,7 +1,7 @@
 from django.utils import timezone
 from rest_framework import serializers
 
-from biblioteka.models import Wypozyczenie, Klient, Ksiazka, Autor
+from .models import Wypozyczenie, Klient, Ksiazka, Autor
 
 
 class AutorSerializer(serializers.Serializer):

@@ -8,11 +8,18 @@ class Autor(models.Model):
     imie = models.CharField(max_length=100)
     nazwisko = models.CharField(max_length=100)
 
+    def __str__(self):
+        return f'{self.imie} {self.nazwisko}'
+
 
 class Wypozyczenie(models.Model):
     idWypozyczenia = models.IntegerField(primary_key=True)
     dataWypozyczenia = models.DateField()
     dataZwrotu = models.DateField()
+
+    def __str__(self):
+        return f'{self.dataWypozyczenia} {self.dataZwrotu}'
+
 
 
 class Klient(models.Model):
@@ -24,6 +31,9 @@ class Klient(models.Model):
     email = models.EmailField()
     nrtel = models.IntegerField()
 
+    def __str__(self):
+        return f'{self.imie} {self.nazwisko}'
+
 
 class Ksiazka(models.Model):
     idKsiazki = models.IntegerField(primary_key=True)
@@ -32,6 +42,9 @@ class Ksiazka(models.Model):
     rokWydania = models.IntegerField()
     wypozyczenie = models.ForeignKey(Wypozyczenie, on_delete=models.CASCADE)
     dostepnosc = models.BooleanField()
+
+    def __str__(self):
+        return f'{self.tytul} {self.rokWydania}'
 
 
 
