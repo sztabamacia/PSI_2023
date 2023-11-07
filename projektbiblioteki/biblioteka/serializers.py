@@ -11,9 +11,13 @@ class AutorSerializer(serializers.Serializer):
 
 
 class WypozyczenieSerializer(serializers.Serializer):
+    idWypozyczenia = serializers.IntegerField()
+    dataWypozyczenia = serializers.DateField()
+    dataZwrotu = serializers.DateField()
+
     class Meta:
         model = Wypozyczenie
-        fields = '__all__'
+        fields = ['idWypozyczenia', 'dataWypozyczenia', 'dataZwrotu']
 
     def validate_dataWypozyczenia(self, value):
         # sprawdzamy czy data wypożyczenia nie jest z przyszłości
@@ -29,9 +33,17 @@ class WypozyczenieSerializer(serializers.Serializer):
 
 
 class KlientSerializer(serializers.Serializer):
+    idKlient = serializers.IntegerField()
+    imie = serializers.CharField(max_length=100)
+    nazwisko = serializers.CharField(max_length=100)
+    klient_wypozyczenie = serializers.PrimaryKeyRelatedField(queryset=Wypozyczenie.objects.all())
+    adres = serializers.CharField(max_length=200)
+    email = serializers.EmailField()
+    nrtel = serializers.IntegerField()
+
     class Meta:
         model = Klient
-        fields = '__all__'
+        fields = ['idKlient', 'imie', 'nazwisko', 'klient_wypozyczenie', 'adres', 'email', 'nrtel']
 
     def validate_email(self, value):
         # sprawdzamy czy ten email już należy do jakiegoś klienta
@@ -46,9 +58,16 @@ class KlientSerializer(serializers.Serializer):
 
 
 class KsiazkiSerializer(serializers.Serializer):
+    idKsiazki = serializers.IntegerField()
+    tytul = serializers.CharField(max_length=100)
+    autorID = serializers.PrimaryKeyRelatedField(queryset=Autor.objects.all())
+    rokWydania = serializers.IntegerField()
+    wypozyczenie = serializers.PrimaryKeyRelatedField(queryset=Wypozyczenie.objects.all())
+    dostepnosc = serializers.BooleanField()
+
     class Meta:
         model = Ksiazka
-        fields = '__all__'
+        fields = ['idKsiazki', 'tytul', 'autorID', 'rokWydania', 'wypozyczenie', 'dostepnosc']
 
     def validate_dostepnosc(self, value):
         if value and self.instance.idWypozyczenia is not None:
