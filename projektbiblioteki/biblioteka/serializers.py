@@ -4,13 +4,17 @@ from rest_framework import serializers
 from .models import Wypozyczenie, Klient, Ksiazka, Autor
 
 
-class AutorSerializer(serializers.Serializer):
+class AutorSerializer(serializers.HyperlinkedModelSerializer):
     autorID = serializers.IntegerField()
     imie = serializers.CharField(max_length=100)
     nazwisko = serializers.CharField(max_length=100)
 
+    class Meta:
+        model = Autor
+        fields = ['autorID', 'imie', 'nazwisko']
 
-class WypozyczenieSerializer(serializers.Serializer):
+
+class WypozyczenieSerializer(serializers.HyperlinkedModelSerializer):
     idWypozyczenia = serializers.IntegerField()
     dataWypozyczenia = serializers.DateField()
     dataZwrotu = serializers.DateField()
@@ -32,11 +36,14 @@ class WypozyczenieSerializer(serializers.Serializer):
         return value
 
 
-class KlientSerializer(serializers.Serializer):
+class KlientSerializer(serializers.HyperlinkedModelSerializer):
     idKlient = serializers.IntegerField()
     imie = serializers.CharField(max_length=100)
     nazwisko = serializers.CharField(max_length=100)
-    klient_wypozyczenie = serializers.PrimaryKeyRelatedField(queryset=Wypozyczenie.objects.all())
+    klient_wypozyczenie = serializers.HyperlinkedRelatedField(
+        view_name='wypozyczenie-detail',
+        read_only=True
+    )
     adres = serializers.CharField(max_length=200)
     email = serializers.EmailField()
     nrtel = serializers.IntegerField()
@@ -57,12 +64,18 @@ class KlientSerializer(serializers.Serializer):
         return value
 
 
-class KsiazkiSerializer(serializers.Serializer):
+class KsiazkiSerializer(serializers.HyperlinkedModelSerializer):
     idKsiazki = serializers.IntegerField()
     tytul = serializers.CharField(max_length=100)
-    autorID = serializers.PrimaryKeyRelatedField(queryset=Autor.objects.all())
+    autorID = serializers.HyperlinkedRelatedField(
+        view_name='autor-detail',
+        read_only=True
+    )
     rokWydania = serializers.IntegerField()
-    wypozyczenie = serializers.PrimaryKeyRelatedField(queryset=Wypozyczenie.objects.all())
+    wypozyczenie = serializers.HyperlinkedRelatedField(
+        view_name='wypozyczenie-detail',
+        read_only=True
+    )
     dostepnosc = serializers.BooleanField()
 
     class Meta:

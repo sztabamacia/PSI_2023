@@ -134,4 +134,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAdminUser',  # Dla administratorów
         'biblioteka.permissions.IsAuthenticatedOrReadOnly',  # Dla zarejestrowanych użytkowników
     ],
+    'DEFAULT_PAGINATION_CLASS':
+        'biblioteka.pagination.LimitOffsetPaginationWithUpperBound',
+        'PAGE_SIZE': 1,
+
+
 }
