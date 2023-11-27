@@ -40,10 +40,7 @@ class KlientSerializer(serializers.HyperlinkedModelSerializer):
     idKlient = serializers.IntegerField()
     imie = serializers.CharField(max_length=100)
     nazwisko = serializers.CharField(max_length=100)
-    klient_wypozyczenie = serializers.HyperlinkedRelatedField(
-        view_name='wypozyczenie-detail',
-        read_only=True
-    )
+    klient_wypozyczenie = serializers.SlugRelatedField(queryset=Wypozyczenie.objects.all(), slug_field='idWypozyczenia')
     adres = serializers.CharField(max_length=200)
     email = serializers.EmailField()
     nrtel = serializers.IntegerField()

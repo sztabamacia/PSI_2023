@@ -14,6 +14,7 @@ from pathlib import Path
 
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
 
 ]
 
@@ -134,9 +136,15 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAdminUser',  # Dla administratorów
         'biblioteka.permissions.IsAuthenticatedOrReadOnly',  # Dla zarejestrowanych użytkowników
     ],
+    'DEFAULT_FILTER_BACKENDS': (
+            'django_filters.rest_framework.DjangoFilterBackend',
+            'rest_framework.filters.OrderingFilter',
+            'rest_framework.filters.SearchFilter',
+    ),
+
     'DEFAULT_PAGINATION_CLASS':
         'biblioteka.pagination.LimitOffsetPaginationWithUpperBound',
-        'PAGE_SIZE': 1,
+        'PAGE_SIZE': 5,
 
 
 }
