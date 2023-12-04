@@ -28,8 +28,8 @@ class AutorDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class WypozyczenieFilter(FilterSet):
-    old_date = DateTimeFilter(fieldname='dataWypozyczenia',lookup_expr='gte')
-    new_date = DateTimeFilter(fieldname='dataWypozyczenia',lookup_expr='lte')
+    old_date = DateTimeFilter(field_name='dataWypozyczenia',lookup_expr='gte')
+    new_date = DateTimeFilter(field_name='dataWypozyczenia',lookup_expr='lte')
 
     class Meta:
         model = Wypozyczenie
@@ -40,8 +40,12 @@ class WypozyczenieList(generics.ListCreateAPIView):
     queryset = Wypozyczenie.objects.all()
     serializer_class = WypozyczenieSerializer
     ordering_fields = ['dataWypozyczenia', 'dataZwrotu']
-    filtering_class = WypozyczenieFilter
+    search_fields = ['idWypozyczenia']
+    filterset_class = WypozyczenieFilter
     name = 'wypozyczenie-list'
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 
 class WypozyczenieDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -56,6 +60,7 @@ class KlientList(generics.ListCreateAPIView):
     name = 'klient-list'
     permission_classes = [IsAdminUser]
     ordering_fields = ['nazwisko','adres']
+    search_fields = ['nazwisko']
 
 
 class KlientDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -78,8 +83,12 @@ class KsiazkaList(generics.ListCreateAPIView):
     serializer_class = KsiazkiSerializer
     permission_classes = [IsAdminUser]
     ordering_fields = ['tytul', 'rokWydania']
-    filter_class = KsiazkaFilter
+    filterset_class = KsiazkaFilter
     name = 'ksiazka-list'
+    search_fields = ['tytul']
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 
 class KsiazkaDetail(generics.RetrieveUpdateDestroyAPIView):

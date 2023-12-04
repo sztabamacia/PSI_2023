@@ -34,8 +34,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'biblioteka',
+    
     'rest_framework',
+    'biblioteka.apps.BibliotekaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -131,11 +132,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # Dla zalogowanych użytkowników
-        'rest_framework.permissions.IsAdminUser',  # Dla administratorów
-        'biblioteka.permissions.IsAuthenticatedOrReadOnly',  # Dla zarejestrowanych użytkowników
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+
     'DEFAULT_FILTER_BACKENDS': (
             'django_filters.rest_framework.DjangoFilterBackend',
             'rest_framework.filters.OrderingFilter',

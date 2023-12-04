@@ -18,10 +18,11 @@ class WypozyczenieSerializer(serializers.HyperlinkedModelSerializer):
     idWypozyczenia = serializers.IntegerField()
     dataWypozyczenia = serializers.DateField()
     dataZwrotu = serializers.DateField()
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Wypozyczenie
-        fields = ['idWypozyczenia', 'dataWypozyczenia', 'dataZwrotu']
+        fields = ['idWypozyczenia', 'dataWypozyczenia', 'dataZwrotu','owner']
 
     def validate_dataWypozyczenia(self, value):
         # sprawdzamy czy data wypożyczenia nie jest z przyszłości
@@ -74,10 +75,12 @@ class KsiazkiSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True
     )
     dostepnosc = serializers.BooleanField()
+    owner = serializers.ReadOnlyField(source='owner.username')
+
 
     class Meta:
         model = Ksiazka
-        fields = ['idKsiazki', 'tytul', 'autorID', 'rokWydania', 'wypozyczenie', 'dostepnosc']
+        fields = ['idKsiazki', 'tytul', 'autorID', 'rokWydania', 'wypozyczenie', 'dostepnosc','owner']
 
     def validate_dostepnosc(self, value):
         if value and self.instance.idWypozyczenia is not None:

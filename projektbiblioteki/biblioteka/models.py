@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -16,6 +17,7 @@ class Wypozyczenie(models.Model):
     idWypozyczenia = models.IntegerField(primary_key=True)
     dataWypozyczenia = models.DateField()
     dataZwrotu = models.DateField()
+    owner = models.ForeignKey('auth.User', related_name='wypozyczenie', on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.dataWypozyczenia} {self.dataZwrotu}'
@@ -42,6 +44,8 @@ class Ksiazka(models.Model):
     rokWydania = models.IntegerField()
     wypozyczenie = models.ForeignKey(Wypozyczenie, on_delete=models.CASCADE)
     dostepnosc = models.BooleanField()
+    owner = models.ForeignKey('auth.User', related_name='ksiazka', on_delete=models.CASCADE)
+
 
     def __str__(self):
         return f'{self.tytul} {self.rokWydania}'
