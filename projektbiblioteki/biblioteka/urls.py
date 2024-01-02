@@ -11,5 +11,6 @@ urlpatterns = [
     path('ksiazka/', views.KsiazkaList.as_view(), name='ksiazka-list'),
     path('ksiazka/<int:pk>/', views.KsiazkaDetail.as_view(), name='ksiazka-detail'),
     path('', views.ApiRoot.as_view(), name=views.ApiRoot.name),
+    path('api/klient/', views.KlientList.as_view())
 
 ]
