@@ -10,8 +10,6 @@ from rest_framework.reverse import reverse
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet
 
 
-
-
 class AutorList(generics.ListCreateAPIView):
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer

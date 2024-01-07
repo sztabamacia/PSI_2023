@@ -42,7 +42,7 @@ class Ksiazka(models.Model):
     tytul = models.CharField(max_length=100, default="")
     autorID = models.ForeignKey(Autor, on_delete=models.CASCADE)
     rokWydania = models.IntegerField()
-    wypozyczenie = models.ForeignKey(Wypozyczenie, on_delete=models.CASCADE)
+    wypozyczenie = models.ForeignKey(Wypozyczenie, on_delete=models.CASCADE, null=True, blank=True)
     dostepnosc = models.BooleanField()
     owner = models.ForeignKey('auth.User', related_name='ksiazka', on_delete=models.CASCADE)
 
